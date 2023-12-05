@@ -1,0 +1,23 @@
+# https://github.com/ps-actions-sandbox/ActionsFundamentals/blob/main/hol/02-My-first-action.md
+on:
+  workflow_dispatch:
+    inputs:
+      who-to-greet:
+        type: string
+        required: false
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: Run my own container action
+        id: hello-action
+        uses: ./hello-world-docker-action
+        with:
+          who-to-greet: '@wulfland'
+
+      - name: Output time set in the container
+        run: echo "The time was ${{ steps.hello-action.outputs.time }} when the action said hello"
